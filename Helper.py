@@ -66,12 +66,12 @@ class Helper(object):
 		if(self.doesExist((self.full_filename) == False) or (self.override == True)):
 			fout = open(self.full_filename, "wb")
 			if (self.is_header == True):
-				self.writeHeader(self.precompile, fout)
+				self.writeHeader(fout)
 			else:
 				self.writeCPP(fout)
 				
 			if (self.is_header == True):
-				self.writeFooter(self.precompile, fout)
+				self.writeFooter(fout)
 			fout.close()
 		else:
 			quit("That file already exists.")
