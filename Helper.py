@@ -4,18 +4,18 @@ import os
 
 class Helper(object):
 
-	def __init__(self, file_name, file_ext = "cpp", override = False):
+	def __init__(self, project_name, file_name, override = False):
 		"""Set up everything for the project and file creation"""
-		self.full_filename = file_name + "." + file_ext
-		self.project = file_name
-		self.project_path = os.getcwd() + "/" + file_name
+		self.full_filename = file_name['filename'] + "." + file_name['ext']
+		self.project = project_name
+		self.project_path = os.getcwd() + "/" + self.project
 		self.precompile = {}
 		self.encoding = "utf-8"
 		self.file_name = file_name
-		self.file_ext = file_ext
+		self.file_ext = file_name['ext']
 		self.override = override
 		self.standard = "#include <iostream>\n\n"
-		if (file_ext == "h"):
+		if (file_name['ext'] == "h"):
 			self.is_header = True
 		else:
 			self.is_header = False
@@ -41,18 +41,21 @@ class Helper(object):
 			If the directory does not exist then it is created.
 			If self.override is True then the directory is created regardless. """
 			
-		if((self.doesExist(self.file_name) == False) or (self.override == True)):
-			os.mkdir(self.file_name)
-		else:
+		if(self.doesExist(self.project) == False):
+			os.mkdir(self.project)
+		elif((self.doesExist(self.project) == True) and (self.override == False)):
 			quit("That project already exists.")
+		elif((self.doesExist(self.project) == True) and (self.override == True)):
+			# Project already exists, we'll just add it to the directory
+			True
 	
 	def getPrecompile(self):
 		"""	Creates the Precompiler definitions if this is a header file
 			Postcondition:
 			self.precompile dictionary is populated. """
 		
-		self.precompile["ifndef"] = "#ifndef H_{0}".format(self.file_name.upper())
-		self.precompile["define"] = "#define H_{0}".format(self.file_name.upper())
+		self.precompile["ifndef"] = "#ifndef H_{0}".format(self.file_name['filename'].upper())
+		self.precompile["define"] = "#define H_{0}".format(self.file_name['filename'].upper())
 		self.precompile["end"] = "#endif"
 		
 	def writeFile(self):
