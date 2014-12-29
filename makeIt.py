@@ -28,8 +28,7 @@ def main(value, control):
 	print("Here")
 	for opt, arg in options:
 		if opt in ('-o'):
-			if (arg.lower() == "t"):
-				control['override'] = True
+			control['override'] = True
 			print("Override is: " + str(control['override']))
 		elif opt in ('--Verbose'):
 			control['verbose'] = True
@@ -53,8 +52,7 @@ def main(value, control):
 		print("No file/project name was provided.")
 
 
-options, remainder = getopt.getopt(sys.argv[1:], 'hm:vn:o:', ['Verbose',
-                                                              'version',
+options, remainder = getopt.getopt(sys.argv[1:], 'hm:vn:o', ['Verbose',
                                                               'help'
                                                               ])
 
